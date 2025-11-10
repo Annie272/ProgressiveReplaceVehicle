@@ -89,12 +89,12 @@
 <section class="bg-gray-50 border rounded-xl p-6 shadow-inner" aria-label="Vehicle Details Section">
   <h3 class="text-xl font-semibold mb-4 text-gray-700">Vehicle Details</h3>
   <div class="mb-4">
-    <label for="00NU7000007QI0T" class="block text-sm font-medium text-gray-700">
-      Please Enter the Year of Vehicle to Add:<span class="star">*</span>
-    </label>
-    <input id="00NU7000007QI0T" maxlength="30" name="00NU7000007QI0T" type="text"
-      class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
-  </div>
+  <label for="00NU7000007QI0T" class="block text-sm font-medium text-gray-700">
+    Please Enter the Year of Vehicle to Replace:<span class="star">*</span>
+  </label>
+  <input id="00NU7000007QI0T" maxlength="30" name="00NU7000007QI0T" type="text"
+    class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
+</div>
   <!-- Do you know the VIN of the New Vehicle? Radios -->
   <div class="mb-4">
     <span class="block text-sm font-medium text-gray-700">
@@ -231,14 +231,14 @@
       <div id="otherLocationFields" class="hidden">
         <div class="mb-4">
           <label for="00NU7000006Drkb" class="block text-sm font-medium text-gray-700">
-            Primary location address<span class="star">*</span>
+            Primary location address 1<span class="star">*</span>
           </label>
           <input id="00NU7000006Drkb" maxlength="255" name="00NU7000006Drkb" type="text"
             class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
         </div>
         <div class="mb-4">
           <label for="00NU7000007QpFl" class="block text-sm font-medium text-gray-700">
-            Primary location address
+            Primary location address 2
           </label>
           <input id="00NU7000007QpFl" maxlength="255" name="00NU7000007QpFl" type="text"
             class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
@@ -274,21 +274,21 @@
       <div id="lienholderFields" class="hidden">
         <div class="mb-4">
           <label for="00NU7000007QpKb" class="block text-sm font-medium text-gray-700">
-            Lienholder<span class="star">*</span>
+            Lienholder Name<span class="star">*</span>
           </label>
           <input id="00NU7000007QpKb" maxlength="100" name="00NU7000007QpKb" type="text"
             class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
         </div>
         <div class="mb-4">
           <label for="00NU7000007QpPR" class="block text-sm font-medium text-gray-700">
-             Address<span class="star">*</span>
+             Address 1<span class="star">*</span>
           </label>
           <input id="00NU7000007QpPR" maxlength="100" name="00NU7000007QpPR" type="text"
             class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
         </div>
         <div class="mb-4">
           <label for="00NU7000007QpUH" class="block text-sm font-medium text-gray-700">
-            Address
+            Address 2
           </label>
           <input id="00NU7000007QpUH" maxlength="100" name="00NU7000007QpUH" type="text"
             class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm" />
@@ -680,7 +680,7 @@ document.addEventListener("DOMContentLoaded", function () {
       mustRadio("requestTypeRadios", "Select the Request Type:"),
       mustFill("00NU7000005zuX3", "Policy Number"),
       mustFill("00NU7000005zuLl", "Effective Date (MM/DD/YYYY)", "date"),
-      mustFill("00NU7000007QI0T", "Year of Vehicle to Add"),
+      mustFill("00NU7000007QI0T", "Year of Vehicle to Replace"),
       mustRadio("vinKnown", "Do you know the VIN of the New Vehicle?"),
       mustFill("00NU7000006Knh3", "VIN Number"),
       mustRadio("ridesharing", "Do you also use this vehicle for Ridesharing?"),
@@ -701,14 +701,14 @@ document.addEventListener("DOMContentLoaded", function () {
       fields.push(mustFill("00NU7000006AY3N", "Miles one way to work or school"));
     }
     if (getRadioValue("primaryLocation") === "other") {
-      fields.push(mustFill("00NU7000006Drkb", "Primary location address"));
+      fields.push(mustFill("00NU7000006Drkb", "Primary location address 1"));
       //fields.push(mustFill("00NU7000007QpFl", "Primary location address"));
       fields.push(mustFill("00NU7000005zvUj", "City"));
       fields.push(mustFill("00NU7000006cbfp", "Zip Code"));
     }
     if (financedSelect.value === "Lease" || financedSelect.value === "Own and make payments") {
-      fields.push(mustFill("00NU7000007QpKb", "Lienholder"));
-      fields.push(mustFill("00NU7000007QpPR", "Address"));
+      fields.push(mustFill("00NU7000007QpKb", "Lienholder Name"));
+      fields.push(mustFill("00NU7000007QpPR", "Address 1"));
       //fields.push(mustFill("00NU7000007QpUH", "Address"));
       fields.push(mustFill("00NU7000007QpcL", "City"));
       fields.push(mustFill("00NU7000005zvWL", "State"));
