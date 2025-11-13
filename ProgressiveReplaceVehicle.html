@@ -536,6 +536,22 @@
       <option value="Selected">Selected</option>
     </select>
   </div>
+  <div id="purchaseDateField" class="mb-4 hidden">
+  <label for="00NU7000007Vz4n" class="block text-sm font-medium text-gray-700">
+    Please Enter Purchase Date:<span class="star">*</span>
+  </label>
+  <input
+    id="00NU7000007Vz4n"
+    name="00NU7000007Vz4n"
+    size="12"
+    type="text"
+    class="mt-1 w-full p-2 border border-gray-300 rounded-lg shadow-sm"
+    placeholder="MM/DD/YYYY"
+    autocomplete="off"
+  />
+</div>
+
+  
     </section>
 
     <!-- Hidden Salesforce fields -->
@@ -597,6 +613,24 @@ document.addEventListener("DOMContentLoaded", function () {
   if (window.Pikaday) {
     new Pikaday({
       field: document.getElementById("00NU7000005zuLl"),
+      format: "MM/DD/YYYY",
+      toString(date) {
+        const d = String(date.getDate()).padStart(2, "0");
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const y = date.getFullYear();
+        return `${m}/${d}/${y}`;
+      },
+      parse(dateString) {
+        const [m, d, y] = dateString.split("/");
+        return new Date(y, m - 1, d);
+      },
+    });
+  }
+
+  // *** NEW: Pikaday date picker for Purchase Date field ***
+  if (window.Pikaday) {
+    new Pikaday({
+      field: document.getElementById("00NU7000007Vz4n"),
       format: "MM/DD/YYYY",
       toString(date) {
         const d = String(date.getDate()).padStart(2, "0");
@@ -675,8 +709,6 @@ document.addEventListener("DOMContentLoaded", function () {
       select.value = checked.value;
     }
   }
-  
-  
 
   // Apply sync for all required radio-to-select mappings
   syncRadioToSelect("roadsideAssistance", "00NU700000618hd");
@@ -685,6 +717,16 @@ document.addEventListener("DOMContentLoaded", function () {
   syncRadioToSelect("vinKnown", "00NU7000006NiT7");
   syncRadioToSelect("vinOldKnown", "00NU7000006DHIv");
   syncRadioToSelect("ridesharing", "00NU7000007QIDN");
+
+  // *** NEW: Show/Hide Purchase Date field below Loan/Lease Payoff ***
+  const loanLeasePayoffRadios = document.querySelectorAll('input[name="loanLeasePayoff"]');
+  const purchaseDateField = document.getElementById("purchaseDateField");
+  function updatePurchaseDateVisibility() {
+    const selected = Array.from(loanLeasePayoffRadios).find(r => r.checked);
+    purchaseDateField.classList.toggle("hidden", !selected || selected.value !== "Selected");
+  }
+  loanLeasePayoffRadios.forEach(r => r.addEventListener("change", updatePurchaseDateVisibility));
+  updatePurchaseDateVisibility();
 
   // Validation and dialog logic
   const reviewBtn = document.getElementById("reviewBtn");
@@ -742,6 +784,12 @@ document.addEventListener("DOMContentLoaded", function () {
       fields.push(mustFill("00NU7000007QpcL", "City"));
       fields.push(mustFill("00NU7000005zvWL", "State"));
       fields.push(mustFill("00NU7000007QfZm", "ZIP code"));
+    }
+    // *** NEW: Make Purchase Date mandatory when shown ***
+    if (
+      Array.from(document.querySelectorAll('input[name="loanLeasePayoff"]')).find(r => r.checked && r.value === "Selected")
+    ) {
+      fields.push(mustFill("00NU7000007Vz4n", "Please Enter Purchase Date", "date"));
     }
     return fields;
   }
